@@ -40,3 +40,10 @@ MORE INFORMATION
 
 Refer to the “Developing for Drupal” section of the README.txt in the Drupal
 root directory for further information on extending Drupal with custom modules.
+
+## Credits
+
+Credit list in [CREDITS](CREDITS)
+
+[A Step-By-Step-Guide to Create Custom Modules in Drupal 8]: https://suyati.com/blog/step-step-guide-create-custom-modules-drupal-8/ "A Step-By-Step-Guide to Create Custom Modules in Drupal 8"
+[Drupal 8: Form API что изменилось и как использовать]: https://niklan.net/blog/73 "Drupal 8: Form API что изменилось и как использовать"
