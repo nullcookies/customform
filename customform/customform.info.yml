@@ -1,0 +1,7 @@
+name: Сustom Form
+description: 'Form API Example!'
+type: module
+core: 8.x
+version: 1.0
+package: Examples
+configure: collect_form.admin_settings

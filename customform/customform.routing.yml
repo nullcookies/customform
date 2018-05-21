@@ -1,0 +1,16 @@
+collect_form.form:
+  path: '/custom-form'
+  defaults:
+    _title: 'Form API Example!'
+    # Подгружаем форму по неймспейсу.
+    _form: '\Drupal\customform\Form\CollectForm'
+  requirements:
+    _permission: 'access content'
+
+collect_form.admin_settings:
+  path: '/admin/config/customform'
+  defaults:
+    _form: '\Drupal\customform\Form\CollectFormSettings'
+    _title: 'Settings for Collect form.'
+  requirements:
+    _permission: 'administer site configuration'
