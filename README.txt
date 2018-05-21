@@ -41,9 +41,11 @@ MORE INFORMATION
 Refer to the “Developing for Drupal” section of the README.txt in the Drupal
 root directory for further information on extending Drupal with custom modules.
 
-## Credits
+Credits
+----------------
 
-Credit list in [CREDITS](CREDITS)
+https://suyati.com/blog/step-step-guide-create-custom-modules-drupal-8/ "A Step-By-Step-Guide to Create Custom Modules in Drupal 8"
+https://niklan.net/blog/73 "Drupal 8: Form API что изменилось и как использовать"
+https://drupalfly.ru/lesson/create-my-module-for-drupal-8 "Пишем свой модуль для Drupal 8. Создание страницы и пункта меню."
+http://drup.by/articles/html5-elementy-form-v-drupal-8 "HTML5 элементы форм в Drupal 8"
 
-[A Step-By-Step-Guide to Create Custom Modules in Drupal 8]: https://suyati.com/blog/step-step-guide-create-custom-modules-drupal-8/ "A Step-By-Step-Guide to Create Custom Modules in Drupal 8"
-[Drupal 8: Form API что изменилось и как использовать]: https://niklan.net/blog/73 "Drupal 8: Form API что изменилось и как использовать"
