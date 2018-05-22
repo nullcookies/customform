@@ -89,7 +89,7 @@ class CollectForm extends FormBase {
       if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
       }else{
-          $form_state->setErrorByName('email', $this->t($email.' - Wrong'));
+          $form_state->setErrorByName('email', $this->t(($email) ?  $email.' - Wrong' : 'Wrong'));
       }
 
 
