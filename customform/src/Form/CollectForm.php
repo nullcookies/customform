@@ -101,7 +101,6 @@ class CollectForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-      //var_dump(\Drupal::config()->get());
 
       $response = ($this->hubspotRequest($form_state));
 
@@ -111,6 +110,14 @@ class CollectForm extends FormBase {
           drupal_set_message($this->t('@email - OK', array(
               '@email' => $form_state->getValue('email'),
           )));
+
+
+          \Drupal::logger('customform_send')->notice( $form_state->getValue('email').' почта отправлена.',
+              array(
+
+              ));
+
+
       }
 
   }
@@ -125,7 +132,7 @@ class CollectForm extends FormBase {
     public function hubspotRequest($form_state) {
         $config = \Drupal::config('customform.collect_form.settings');
 
-        $apikey =($config->get('hubspot_key'));
+        $apikey =($config->get('hubspot_key'))? $config->get('hubspot_key') : 'ab816df0-f023-4bcb-9418-edda545c9489';
         $arr = [
             'properties' => [
                 [
