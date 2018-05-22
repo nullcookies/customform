@@ -44,9 +44,9 @@ class CollectForm extends FormBase {
           '#title' => ('Your name')
       );
 
-      $form['surname'] = array(
+      $form['lastname'] = array(
           '#type' => 'textfield',
-          '#title' => ('Your surname')
+          '#title' => ('Your lastname')
       );
 
       $form['subject'] = array(
@@ -101,11 +101,62 @@ class CollectForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // Мы ничего не хотим делать с данными, просто выведем их в системном
-    // сообщении.
-    drupal_set_message($this->t('@email - OK', array(
-      '@email' => $form_state->getValue('email'),
-    )));
+      //var_dump(\Drupal::config()->get());
+
+      $response = ($this->hubspotRequest($form_state));
+
+      if(!empty($response['Error'])){
+          drupal_set_message($this->t($response['Data']),'error');
+      }else{
+          drupal_set_message($this->t('@email - OK', array(
+              '@email' => $form_state->getValue('email'),
+          )));
+      }
+
   }
+
+    /**
+     * Create a new contact
+     *
+     * Docs: https://developers.hubspot.com/docs/methods/contacts/create_contact#tab-4
+     *
+     * @param object $form_state
+     */
+    public function hubspotRequest($form_state) {
+        $config = \Drupal::config('customform.collect_form.settings');
+
+        $apikey =($config->get('hubspot_key'));
+        $arr = [
+            'properties' => [
+                [
+                    'property' => 'email',
+                    'value' => $form_state->getValue('email')
+                ],
+                [
+                    'property' => 'firstname',
+                    'value' => $form_state->getValue('name')
+                ],
+                [
+                    'property' => 'lastname',
+                    'value' => $form_state->getValue('lastname')
+                ]
+            ]
+        ];
+        $post_json = json_encode($arr);
+        $endpoint = 'https://api.hubapi.com/contacts/v1/contact?hapikey=' . $apikey;
+        $ch = @curl_init();
+        @curl_setopt($ch, CURLOPT_POST, true);
+        @curl_setopt($ch, CURLOPT_POSTFIELDS, $post_json);
+        @curl_setopt($ch, CURLOPT_URL, $endpoint);
+        @curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        @curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = @curl_exec($ch);
+        $status_code = @curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curl_errors = curl_error($ch);
+        @curl_close($ch);
+        $response = json_decode($response);
+        return array('Data' => ($response->message), 'Error' => ($response->status == 'error') ? $response->status : '',
+            'HTTPCode' => $status_code);
+    }
 
 }

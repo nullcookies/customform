@@ -33,19 +33,31 @@ class CollectFormSettings extends ConfigFormBase {
     ];
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(array $form, FormStateInterface $form_state) {
+        // Загружаем наши конфиги.
+        $config = $this->config('customform.collect_form.settings');
 
-    // Субмит наследуем от ConfigFormBase
-    return parent::buildForm($form, $form_state);
-  }
+        $form['default_hubspot_key'] = array(
+            '#type' => 'textfield',
+            '#title' => $this->t('Default hubspot apikey'),
+            '#default_value' => $config->get('hubspot_key'),
+        );
+        // Субмит наследуем от ConfigFormBase
+        return parent::buildForm($form, $form_state);
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
 
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function submitForm(array &$form, FormStateInterface $form_state) {
+        $values = $form_state->getValues();
+        // Записываем значения в наш конфиг файл и сохраняем.
+        $this->config('customform.collect_form.settings')
+            ->set('hubspot_key', $values['default_hubspot_key'])
+            ->save();
+    }
 }
