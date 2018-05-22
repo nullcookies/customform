@@ -103,7 +103,6 @@ class CollectForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
       $response = ($this->hubspotRequest($form_state));
-
       if(!empty($response['Error'])){
           drupal_set_message($this->t($response['Data']),'error');
       }else{
@@ -162,7 +161,7 @@ class CollectForm extends FormBase {
         $curl_errors = curl_error($ch);
         @curl_close($ch);
         $response = json_decode($response);
-        return array('Data' => ($response->message), 'Error' => ($response->status == 'error') ? $response->status : '',
+        return array('Data' => (!empty($response->message)) ? $response->message : '', 'Error' => (!empty($response->status) and $response->status == ('error')) ? $response->status : '',
             'HTTPCode' => $status_code);
     }
 
