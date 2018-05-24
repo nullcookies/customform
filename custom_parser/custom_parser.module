@@ -1,0 +1,66 @@
+<?php
+
+/**
+ * @file
+ */
+
+use Drupal\node\Entity\Node;
+use Drupal\custom_parser\Parser;
+
+/**
+ * Implements hook_cron().
+ */
+function custom_parser_cron()
+{
+
+    \Drupal::logger('custom_parser_cron')->notice(date("Y-m-d H:i:s") . ' запуск.',
+        []
+    );
+
+    $queue = \Drupal::queue('site_parser');
+
+
+    if (!empty($item = $queue->claimItem())) {
+
+        # Создание Node по итемам из rss.
+        $import = Parser::parseSite();
+        if (!empty($import)) {
+            foreach ($import as $key => $value) {
+
+                if (checkData($value['title'])) {
+                    continue;
+                }
+
+                $node = Node::create(array(
+                    'type' => 'page',
+                    'title' => $value['title'],
+                    'langcode' => 'ru',
+                    'uid' => $item->data['uid'],
+                    'status' => 1,
+                    'field_fields' => array(),
+                ));
+                $node->save();
+            }
+        }
+
+
+    }
+
+
+}
+
+function checkData($title)
+{
+    $query = \Drupal::database()->select('node_field_data', 'n')
+        ->fields('n', array('uid', 'title'))
+        ->condition('n.uid', '1', '=')
+        ->condition('n.title', $title);
+    $data = $query->execute();
+    // Get all the results
+    $results = $data->fetchAll(\PDO::FETCH_OBJ);
+
+    if (empty($results)) {
+        return false;
+    }
+    return true;
+}

@@ -1,0 +1,9 @@
+custom_parser.admin_settings:
+  path: '/admin/config/development/parser'
+  defaults:
+    _form: '\Drupal\custom_parser\Form\ParserForm'
+    _title: 'Parser Form'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
