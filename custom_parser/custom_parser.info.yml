@@ -2,3 +2,5 @@ name: 'Custom parser'
 type: module
 core: 8.x
 version: 1.x
+dependencies:
+  - ultimate_cron

@@ -13,10 +13,6 @@ use Drupal\custom_parser\Parser;
 function custom_parser_cron()
 {
 
-    \Drupal::logger('custom_parser_cron')->notice(date("Y-m-d H:i:s") . ' запуск.',
-        []
-    );
-
     $queue = \Drupal::queue('site_parser');
 
 
@@ -41,12 +37,25 @@ function custom_parser_cron()
                 ));
                 $node->save();
             }
-        }
 
+            drLog(true);
+
+        } else {
+            drLog(false);
+
+        }
 
     }
 
+}
 
+function drLog($result)
+{
+
+    \Drupal::logger('custom_parser_cron')->notice(date("Y-m-d H:i:s") . ' крон отработал успешно.' . ($result) ? ' Данные записаны в ноды' : ' Не получаны данные с сайта'
+        ,
+        []
+    );
 }
 
 function checkData($title)

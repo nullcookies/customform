@@ -48,29 +48,6 @@ class ParserForm extends ConfigFormBase {
           '#required' => TRUE,
       ];
 
-/*      $intervals = [];
-      for($i = 1; $i < 25; $i++){
-          $intervals[$i] = $i;
-      }*/
-
-      $form['additional_settings']['parser_select'] = [
-          '#type' => 'select',
-          '#title' => $this
-              ->t('Запускать крон каждые'),
-          '#options' => [
-              '1' => $this
-                  ->t('1 час'),
-              '2' =>t('3 часа'),
-              '3' => $this
-                  ->t('6 часов'),
-              '4' => $this
-                  ->t('12 часов'),
-              '5' => $this
-                  ->t('1 день'),
-          ],
-          '#default_value' => $config->get('parser_select') ? $config->get('parser_select') : '5',
-          '#required' => TRUE,
-      ];
 
     return parent::buildForm($form, $form_state);
   }
@@ -121,7 +98,6 @@ class ParserForm extends ConfigFormBase {
 
     $config->set('checkbox', $form_state->getValue('checkbox'))
       ->set('site_select', $form_state->getValue('site_select'))
-      ->set('parser_select', $form_state->getValue('parser_select'))
       ->save();
 
   }
